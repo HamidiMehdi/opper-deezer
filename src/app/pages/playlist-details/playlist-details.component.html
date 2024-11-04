@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="d-flex justify-content-between p-5">
+    <h1>Details de la playlist</h1>
+    <button [routerLink]="['/playlists']" type="button" class="btn btn-dark ml-auto left">Retour à la liste</button>
+  </div>
+</div>
+
+<section *ngIf="(playlist$ | async) as playlist " class="mt-5">
+  <div *ngIf="playlist.id != undefined; else noPlaylist" class="row">
+    <div class="col-lg-5 col-md-5 col-sm-6">
+      <div class="white-box text-center">
+        <img [src]="playlist.imageUrl" class="img-responsive">
+      </div>
+    </div>
+
+    <div class="col-lg-7 col-md-7 col-sm-6">
+      <h4 class="box-title">Details de la playlist</h4>
+      <p class="m-0">Titre : {{ playlist.title }}</p>
+      <p class="m-0">Auteur : {{ playlist.creator.name }}</p>
+      <p class="m-0">Durée : {{ durationFormatted(playlist.duration) }}</p>
+    </div>
+  </div>
+  <ng-template #noPlaylist>
+    <div class="row ps-5">
+      Aucune playlist n'a été trouvé avec cette id
+    </div>
+  </ng-template>
+</section>
+
+<section>
+  <h3 class="mt-5 mb-3 ps-5">Liste des tracks</h3>
+  <div class="row justify-content-center">
+    <div *ngFor="let track of tracks$ | async" class="card m-2" style="width: 12rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ track.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Artiste : {{ track.artist.name }}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">Durée : {{ durationFormatted(track.duration) }}</h6>
+      </div>
+    </div>
+  </div>
+</section>
